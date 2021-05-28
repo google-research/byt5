@@ -1,0 +1,7 @@
+include 'models/t5.1.1.xxl.gin'
+
+# 12.9B params
+encoder/transformer.make_layer_stack.num_layers = 36
+decoder/transformer.make_layer_stack.num_layers = 12
+d_model=4672
+d_ff=12352
