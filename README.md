@@ -1,12 +1,14 @@
-# ByT5: Pretrained byte-to-byte models for tokenizer-free NLP
+# ByT5: Towards a token-free future with pre-trained byte-to-byte models
 
 ByT5 is a tokenizer-free extension of the [mT5
 model](https://arxiv.org/abs/2010.11934). Instead of using a subword vocabulary
-like other pretrained language models (BERT, XLM-R, T5, GPT-3), our ByT5 model
-operates directly on UTF-8 bytes, removing the need for any text preprocessing.
-Beyond the reduction in system complexity, we find that parameter-matched ByT5
-models are competitive with mT5 across a range of tasks, and outperform mT5 on
-tasks that involve noisy text or are sensitive to spelling and pronunciation.
+like most other pretrained language models (BERT, XLM-R, T5, GPT-3), our ByT5
+model operates directly on UTF-8 bytes, removing the need for any text
+preprocessing. Beyond the reduction in system complexity, we find that
+parameter-matched ByT5 models are competitive with mT5 across a range of tasks,
+and outperform mT5 on tasks that involve noisy text or are sensitive to
+spelling and pronunciation. This repo can be used to reproduce the experiments
+in the [ByT5 paper][paper].
 
 ## Usage
 
@@ -97,7 +99,8 @@ The remaining experiments are shown in the [tasks.py](byt5/tasks.py) file.
 
 ## Released Model Checkpoints
 
-We have released the following checkpoints for pre-trained models:
+We have released the following checkpoints for pre-trained models described in
+our [paper][paper]:
 
 * **ByT5-Small** (300 million parameters): [gs://t5-data/pretrained_models/byt5/small](https://console.cloud.google.com/storage/browser/t5-data/pretrained_models/byt5/small/)
 * **ByT5-Base** (580 million parameters): [gs://t5-data/pretrained_models/byt5/base](https://console.cloud.google.com/storage/browser/t5-data/pretrained_models/byt5/base/)
@@ -105,6 +108,22 @@ We have released the following checkpoints for pre-trained models:
 * **ByT5-XL** (3.7 billion parameters): [gs://t5-data/pretrained_models/byt5/xl](https://console.cloud.google.com/storage/browser/t5-data/pretrained_models/byt5/xl/)
 * **ByT5-XXL** (13 billion parameters): [gs://t5-data/pretrained_models/byt5/xxl](https://console.cloud.google.com/storage/browser/t5-data/pretrained_models/byt5/xxl/)
 
-## Disclaimer
+# How to Cite
+
+If you extend or use this work, please cite the [paper][paper] where it was
+introduced:
+
+```
+@misc{xue2021byt5,
+    title={ByT5: Towards a token-free future with pre-trained byte-to-byte models},
+    author={Linting Xue and Aditya Barua and Noah Constant and Rami Al-Rfou and Sharan Narang and Mihir Kale and Adam Roberts and Colin Raffel},
+    year={2021},
+    eprint={2105.13626},
+    archivePrefix={arXiv},
+    primaryClass={cs.CL}
+}
+```
+
+[paper]: https://arxiv.org/abs/2105.13626
 
 This is not an officially supported Google product.
