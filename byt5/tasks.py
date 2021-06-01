@@ -554,7 +554,7 @@ for b in tfds.text.glue.Glue.builder_configs.values():
   t5.data.TaskRegistry.add(
       "byt5_glue_%s_v002" % b.name,
       t5.data.TfdsTask,
-      tfds_name="glue/%s:1.0.0" % b.name,
+      tfds_name="glue/%s:2.0.0" % b.name,
       text_preprocessor=t5.data.get_glue_text_preprocessor(b),
       metric_fns=t5.data.get_glue_metric(b.name),
       output_features=DEFAULT_BYTE_OUTPUT_FEATURES,
