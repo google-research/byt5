@@ -47,7 +47,6 @@ python -m t5.models.mesh_transformer_main \
   --gin_param="MIXTURE_NAME = '${TASK}'" \
   --gin_param="utils.run.sequence_length = {'inputs': 1024, 'targets': 189}" \
   --gin_param="utils.run.batch_size = ('tokens_per_batch', 1048576)" \
-  --gin_param="mean_noise_span_length = 20" \
   --gin_param="utils.run.learning_rate_schedule=@learning_rate_schedules.rsqrt_no_ramp_down" \
   --gin_param="run.train_steps = 1000000" \
   --gin_param="utils.tpu_mesh_shape.model_parallelism = 1" \

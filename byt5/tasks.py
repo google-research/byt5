@@ -28,6 +28,7 @@ import tensorflow_datasets as tfds
 
 
 
+MEAN_NOISE_SPAN_LENGTH = 20
 DEFAULT_TEMPERATURE = 1.0 / 0.3
 DEFAULT_MIX_RATE = functools.partial(
     t5.data.rate_num_examples, temperature=DEFAULT_TEMPERATURE)
@@ -73,7 +74,9 @@ for lang in MC4_LANGS:
       text_preprocessor=functools.partial(
           t5.data.preprocessors.rekey,
           key_map={"inputs": None, "targets": "text"}),
-      token_preprocessor=t5.data.preprocessors.span_corruption,
+      token_preprocessor=functools.partial(
+          t5.data.preprocessors.span_corruption,
+          mean_noise_span_length=MEAN_NOISE_SPAN_LENGTH),
       output_features=DEFAULT_BYTE_OUTPUT_FEATURES,
       metric_fns=[])
 
@@ -96,7 +99,9 @@ for lang in WIKI_LANGS:
                   "targets": "text"
               }),
       ],
-      token_preprocessor=t5.data.preprocessors.span_corruption,
+      token_preprocessor=functools.partial(
+          t5.data.preprocessors.span_corruption,
+          mean_noise_span_length=MEAN_NOISE_SPAN_LENGTH),
       output_features=DEFAULT_BYTE_OUTPUT_FEATURES,
       metric_fns=[])
 
