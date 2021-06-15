@@ -603,7 +603,6 @@ t5.data.TaskRegistry.add(
     output_features=DEFAULT_BYTE_OUTPUT_FEATURES)
 
 # ----- WikiAnn NER -----
-
 NER_LANGS = [
     "af", "ar", "bg", "bn", "de", "el", "en", "es", "et", "eu", "fa", "fi",
     "fr", "he", "hi", "hu", "id", "it", "ja", "jv", "ka", "kk", "ko", "ml",
@@ -643,4 +642,20 @@ t5.data.MixtureRegistry.add(
     ["byt5_ner_eval.{}".format(lang) for lang in NER_LANGS],
     default_rate=1.0)
 
+# ----- GEM-XSum -----
+_rouge_fn = functools.partial(
+    metrics.rouge,
+    score_keys=["rouge1", "rouge2", "rougeL", "rougeLsum"])
+
+t5.data.TaskRegistry.add(
+    "byt5_gem_xsum",
+    t5.data.TfdsTask,
+    tfds_name="gem/xsum:1.0.1",
+    text_preprocessor=functools.partial(
+        t5.data.preprocessors.summarize,
+        article_key="document",
+        summary_key="target"),
+    metric_fns=[metrics.bleu, _rouge_fn],
+    output_features=DEFAULT_BYTE_OUTPUT_FEATURES,
+)
 
