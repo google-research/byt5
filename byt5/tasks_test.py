@@ -49,7 +49,8 @@ _TASKS = [
     'byt5_wmt15_enfr_v003',
     'byt5_wmt16_enro_v003',
     'byt5_wmt_t2t_ende_v003',
-    'byt5_gem_xsum'
+    'byt5_gem_xsum',
+    'reverse_dict'
 ]
 
 _MIXTURES = [
