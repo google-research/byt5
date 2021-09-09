@@ -15,9 +15,12 @@
 """Add Tasks to registry."""
 import functools
 import random
+
 from byt5.tasks import DEFAULT_BYTE_OUTPUT_FEATURES
 from byt5.tasks import DEFAULT_MT5_OUTPUT_FEATURES
+from byt5.tasks import DEFAULT_PREPROCESSORS
 import numpy
+import seqio
 import t5.data
 from t5.data import preprocessors
 
@@ -26,8 +29,8 @@ from t5.data import preprocessors
 SIGMORPHON_DIR = None
 
 FEATURE_MAP = {
-    "byt5": DEFAULT_BYTE_OUTPUT_FEATURES,
-    "mt5": DEFAULT_MT5_OUTPUT_FEATURES
+    'byt5': DEFAULT_BYTE_OUTPUT_FEATURES,
+    'mt5': DEFAULT_MT5_OUTPUT_FEATURES
 }
 
 # ====================== SIGMORPHON-2020 TASK-1 ====================
@@ -98,16 +101,15 @@ data_dir = f'{SIGMORPHON_DIR}/{year}/{task}/data/'
 
 for lang in langs:
   for prefix, output_features in FEATURE_MAP.items():
-    t5.data.TaskRegistry.add(
+    seqio.TaskRegistry.add(
         f'{prefix}_sigmorphon_{year}_{task}.{lang}',
-        t5.data.TextLineTask,
-        text_preprocessor=get_2020_task1_preprocessor(lang),
+        source=seqio.TextLineDataSource(
+            split_to_filepattern={
+                'train': f'{data_dir}/train/{lang}_train.tsv',
+                'validation': f'{data_dir}/dev/{lang}_dev.tsv',
+                'test': f'{data_dir}/test/{lang}_test.tsv'}),
+        preprocessors=get_2020_task1_preprocessor(lang) + DEFAULT_PREPROCESSORS,
         output_features=output_features,
-        split_to_filepattern={
-            'train': f'{data_dir}/train/{lang}_train.tsv',
-            'validation': f'{data_dir}/dev/{lang}_dev.tsv',
-            'test': f'{data_dir}/test/{lang}_test.tsv',
-        },
         metric_fns=[metrics_task1_2020])
 
 for prefix in ['mt5', 'byt5']:
@@ -245,24 +247,23 @@ for prefix, output_features in FEATURE_MAP.items():
         'validation': f'{data_dir}/{path_prefix}.dev',
         'test': f'{data_dir}/GOLD-TEST/{lang}.tst',
     }
-    t5.data.TaskRegistry.add(
+    seqio.TaskRegistry.add(
         f'{prefix}_sigmorphon_{year}_{task}.{lang}',
-        t5.data.TextLineTask,
-        text_preprocessor=get_2020_task0_preprocessor(lang),
+        source=seqio.TextLineDataSource(
+            split_to_filepattern=split_to_filepattern),
+        preprocessors=get_2020_task0_preprocessor(lang) + DEFAULT_PREPROCESSORS,
         output_features=output_features,
-        split_to_filepattern=split_to_filepattern,
         metric_fns=[metrics_task0_2020])
 
-
-  t5.data.TaskRegistry.add(
+  seqio.TaskRegistry.add(
       f'{prefix}_sigmorphon_{year}_{task}.all',
-      t5.data.TextLineTask,
-      text_preprocessor=preprocessors.preprocess_tsv,
+      source=seqio.TextLineDataSource(
+          split_to_filepattern={
+              'test': f'{data_dir}/test.tsv',
+              'validation': f'{data_dir}/validation.tsv',}),
+      preprocessors=[preprocessors.preprocess_tsv,
+                     *DEFAULT_PREPROCESSORS,],
       output_features=output_features,
-      split_to_filepattern={
-          'test': f'{data_dir}/test.tsv',
-          'validation': f'{data_dir}/validation.tsv'
-      },
       metric_fns=[metrics_task0_2020])
 
 for prefix in ['mt5', 'byt5']:

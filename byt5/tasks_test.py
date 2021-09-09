@@ -17,6 +17,7 @@
 from absl import logging
 from absl.testing import absltest
 from absl.testing import parameterized
+import byt5.sigmorphon  # pylint:disable=unused-import
 import byt5.tasks  # pylint:disable=unused-import
 import t5
 import tensorflow.compat.v1 as tf
