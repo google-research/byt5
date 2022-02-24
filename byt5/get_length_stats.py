@@ -1,4 +1,4 @@
-# Copyright 2021 The ByT5 Authors.
+# Copyright 2022 The ByT5 Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ to 1.1 * 99th percentile length.
 
 from absl import app
 from absl import flags
+import byt5.sigmorphon  # pylint:disable=unused-import
 import byt5.tasks  # pylint:disable=unused-import
 import multilingual_t5.tasks  # pylint:disable=unused-import
 import t5
