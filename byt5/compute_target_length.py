@@ -25,7 +25,7 @@ from absl import flags
 from byt5 import tasks as byt5_tasks
 from multilingual_t5 import tasks as mt5_tasks
 import numpy as np
-import t5
+import t5.models.mesh_transformer as mesh_transformer
 import tensorflow_datasets as tfds
 
 
@@ -64,7 +64,7 @@ def compute_target_length(task_or_mixture,
   target_lengths = []
   for split in FLAGS.splits:
     dummy_target_len = 512
-    ds = t5.models.mesh_transformer.mesh_train_dataset_fn(
+    ds = mesh_transformer.mesh_train_dataset_fn(
         task_or_mixture,
         sequence_length={"inputs": input_len, "targets": dummy_target_len},
         vocabulary=vocab,
